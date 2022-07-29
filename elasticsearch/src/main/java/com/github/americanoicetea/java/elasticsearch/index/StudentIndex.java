@@ -52,6 +52,8 @@ public class StudentIndex {
     private Contact contact;
     private String major;
     @Field(type = FieldType.Keyword)
+    private StudentStatus status;
+    @Field(type = FieldType.Keyword)
     private Degree degree;
 
     public String getStudentID() {
@@ -149,6 +151,14 @@ public class StudentIndex {
 
     public void setDegree(Degree degree) {
         this.degree = degree;
+    }
+
+    public StudentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(StudentStatus status) {
+        this.status = status;
     }
 
 }

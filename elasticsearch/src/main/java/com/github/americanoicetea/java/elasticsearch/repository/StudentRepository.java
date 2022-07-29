@@ -109,7 +109,7 @@ public interface StudentRepository extends ElasticsearchRepository<StudentIndex,
      * @param lastName
      * @return n students
      */
-    List<StudentIndex> findByLastNameAndLastNameOrderByDobDec(String firstName, String lastName);
+    List<StudentIndex> findByLastNameAndLastNameOrderByDobDesc(String firstName, String lastName);
 
     /**
      * find student's gpax greater or equal to specific gpax
