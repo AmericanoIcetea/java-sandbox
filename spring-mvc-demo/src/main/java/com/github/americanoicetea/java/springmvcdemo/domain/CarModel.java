@@ -9,11 +9,11 @@ public class CarModel {
     private String model;
 
     private Year year;
-    
+
     private Integer power;
-    
+
     private Integer energyCapacity;
-    
+
     private String description;
 
     public CarModel() {

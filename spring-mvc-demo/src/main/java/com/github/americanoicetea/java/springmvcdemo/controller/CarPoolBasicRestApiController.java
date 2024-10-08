@@ -23,7 +23,7 @@ import com.github.americanoicetea.java.springmvcdemo.service.CarPoolService;
 /**
  * Basic use in rest api controller
  * consists of GET POST PUT DELETE PATCh HEAD examples
- * 
+ *
  */
 @RestController
 public class CarPoolBasicRestApiController {
