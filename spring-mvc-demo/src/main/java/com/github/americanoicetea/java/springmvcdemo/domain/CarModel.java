@@ -2,22 +2,18 @@ package com.github.americanoicetea.java.springmvcdemo.domain;
 
 import java.time.Year;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-
 public class CarModel {
 
-    @NotBlank(message = "brand is mandatory")
     private String brand;
-    @NotBlank(message = "Model is mandatory")
+
     private String model;
-    @PastOrPresent(message = "Year cannot be future")
+
     private Year year;
-    @NotNull(message = "power is mandatory")
+    
     private Integer power;
-    @NotNull(message = "energyCapacity is mandatory")
+    
     private Integer energyCapacity;
+    
     private String description;
 
     public CarModel() {
@@ -70,5 +66,4 @@ public class CarModel {
     public void setEnergyCapacity(Integer energyCapacity) {
         this.energyCapacity = energyCapacity;
     }
-
 }

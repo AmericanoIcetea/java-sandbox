@@ -2,8 +2,6 @@ package com.github.americanoicetea.java.springmvcdemo.controller;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -35,7 +33,7 @@ public class CarPoolBasicRestApiController {
 
     /**
      * get info of /car-model path api which http methods are allowed
-     * 
+     *
      * @return http content negotiation
      */
     @RequestMapping(value = "/car-model", method = RequestMethod.OPTIONS)
@@ -48,7 +46,7 @@ public class CarPoolBasicRestApiController {
 
     /**
      * get info of /car-models path api which http methods are allowed
-     * 
+     *
      * @return http content negotiation
      */
     @RequestMapping(value = "/car-models", method = RequestMethod.OPTIONS)
@@ -62,7 +60,7 @@ public class CarPoolBasicRestApiController {
     /**
      * get info of /car-model/{brand}/{model} path api which http methods are
      * allowed
-     * 
+     *
      * @return http content negotiation
      */
     @RequestMapping(value = "/car-models/{brand}", method = RequestMethod.OPTIONS)
@@ -75,7 +73,7 @@ public class CarPoolBasicRestApiController {
 
     /**
      * get only header car model api
-     * 
+     *
      * @param brand
      * @param model
      * @return http content negotiation
@@ -83,7 +81,7 @@ public class CarPoolBasicRestApiController {
     @RequestMapping(value = "/car-models/{brand}/{model}", method = RequestMethod.HEAD)
     public ResponseEntity<CarModel> headCarModels(@PathVariable String brand, @PathVariable String model) {
         var body = carPoolService.getCarModel(brand, model);
-        ResponseEntity<CarModel> response = null;
+        ResponseEntity<CarModel> response;
         if (body == null) {
             response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
@@ -94,7 +92,7 @@ public class CarPoolBasicRestApiController {
 
     /**
      * get only header car model api
-     * 
+     *
      * @param brand
      * @param model
      * @return http content negotiation
@@ -102,18 +100,16 @@ public class CarPoolBasicRestApiController {
     @RequestMapping(value = "/car-models/{brand}", method = RequestMethod.HEAD)
     public ResponseEntity<Collection<CarModel>> headBrandCarModels(String brand) {
         var body = carPoolService.getCarModels(brand);
-        ResponseEntity<Collection<CarModel>> response = null;
         if (body == null) {
-            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            response = new ResponseEntity<>(body, HttpStatus.OK);
+            return new ResponseEntity<>(body, HttpStatus.OK);
         }
-        return response;
     }
 
     /**
      * get only header car model api
-     * 
+     *
      * @param brand
      * @param model
      * @return http content negotiation
@@ -121,54 +117,48 @@ public class CarPoolBasicRestApiController {
     @RequestMapping(value = "/car-models", method = RequestMethod.HEAD)
     public ResponseEntity<Collection<CarModel>> headCarModels() {
         var body = carPoolService.getCarModels();
-        ResponseEntity<Collection<CarModel>> response = null;
         if (body == null) {
-            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            response = new ResponseEntity<>(body, HttpStatus.OK);
+            return new ResponseEntity<>(body, HttpStatus.OK);
         }
-        return response;
     }
 
     /**
      * get car info api
-     * 
+     *
      * @param car model brand
      * @return collection of car model
      */
     @GetMapping(value = "/car-models")
     public ResponseEntity<Collection<CarModel>> getCarModels() {
         var body = carPoolService.getCarModels();
-        ResponseEntity<Collection<CarModel>> response = null;
         if (body == null) {
-            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            response = new ResponseEntity<>(body, HttpStatus.OK);
+            return new ResponseEntity<>(body, HttpStatus.OK);
         }
-        return response;
     }
 
     /**
      * get car info api
-     * 
+     *
      * @param car model brand
      * @return collection of car model
      */
     @GetMapping(value = "/car-models/{brand}")
     public ResponseEntity<Collection<CarModel>> getBrandCarModels(@PathVariable String brand) {
         var body = carPoolService.getCarModels(brand);
-        ResponseEntity<Collection<CarModel>> response = null;
         if (body == null) {
-            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            response = new ResponseEntity<>(body, HttpStatus.OK);
+            return new ResponseEntity<>(body, HttpStatus.OK);
         }
-        return response;
     }
 
     /**
      * get car model api
-     * 
+     *
      * @param car brand
      * @param car model
      * @return car model
@@ -176,49 +166,45 @@ public class CarPoolBasicRestApiController {
     @GetMapping(value = "/car-model/{brand}/{model}")
     public ResponseEntity<CarModel> getCarModel(@PathVariable String brand, @PathVariable String model) {
         var body = carPoolService.getCarModel(brand, model);
-        ResponseEntity<CarModel> response = null;
         if (body == null) {
-            response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            response = new ResponseEntity<>(body, HttpStatus.OK);
+            return new ResponseEntity<>(body, HttpStatus.OK);
         }
-        return response;
     }
 
     /**
      * create car model api
-     * 
+     *
      * @param body of car
      * @return body which has saved
      */
     @PostMapping(value = "/car-model")
-    public ResponseEntity<CarModel> createCarModel(@RequestBody @Valid CarModel carModel) {
+    public ResponseEntity<CarModel> createCarModel(@RequestBody CarModel carModel) {
         return new ResponseEntity<>(carPoolService.createCar(carModel), HttpStatus.CREATED);
     }
 
     /**
      * update car model api
      * if exist create
-     * 
+     *
      * @param body of car
      * @return body which has saved
      */
     @PutMapping(value = "/car-model")
     public ResponseEntity<Object> putCarModel(@RequestBody CarModel carModel) {
         var body = carPoolService.updateCar(carModel);
-        ResponseEntity<Object> response = null;
         if (body == null) {
             body = carPoolService.createCar(carModel);
-            response = ResponseEntity.status(HttpStatus.CREATED).body(body);
+            return ResponseEntity.status(HttpStatus.CREATED).body(body);
         } else {
-            response = new ResponseEntity<>(body, HttpStatus.OK);
+            return new ResponseEntity<>(body, HttpStatus.OK);
         }
-        return response;
     }
 
     /**
      * delete car model api
-     * 
+     *
      * @param brand
      * @param model
      * @return body which has saved
@@ -226,18 +212,16 @@ public class CarPoolBasicRestApiController {
     @DeleteMapping(value = "/car-model/{brand}/{model}")
     public ResponseEntity<CarModel> deleteCarModel(@PathVariable String brand, @PathVariable String model) {
         var body = carPoolService.deleteCarModel(brand, model);
-        ResponseEntity<CarModel> response = null;
         if (body == null) {
-            response = new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
         } else {
-            response = new ResponseEntity<>(body, HttpStatus.OK);
+            return new ResponseEntity<>(body, HttpStatus.OK);
         }
-        return response;
     }
 
     /**
      * update partial car model api
-     * 
+     *
      * @param body of car
      * @return body which has saved
      */
@@ -246,11 +230,10 @@ public class CarPoolBasicRestApiController {
         var body = carPoolService.updatePartialCarModel(carModel);
         ResponseEntity<CarModel> response = null;
         if (body == null) {
-            response = new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
         } else {
-            response = new ResponseEntity<>(body, HttpStatus.OK);
+            return new ResponseEntity<>(body, HttpStatus.OK);
         }
-        return response;
     }
 
 }

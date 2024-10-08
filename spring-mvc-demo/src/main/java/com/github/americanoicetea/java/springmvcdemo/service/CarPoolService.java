@@ -4,10 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -39,7 +36,7 @@ public class CarPoolService {
         return brandPool == null ? null : Collections.unmodifiableCollection(brandPool.values());
     }
 
-    public CarModel createCar(@Valid CarModel carModel) {
+    public CarModel createCar(CarModel carModel) {
         var brandPool = BRAND_CAR_POOL.get(carModel.getBrand());
         if (brandPool == null) {
             brandPool = new HashMap<>();
@@ -53,7 +50,7 @@ public class CarPoolService {
         return inPoolCarModel;
     }
 
-    public CarModel updateCar(@Valid CarModel carModel) {
+    public CarModel updateCar(CarModel carModel) {
         var brandPool = BRAND_CAR_POOL.get(carModel.getBrand());
         CarModel inPoolCarModel = null;
         if (brandPool != null) {
