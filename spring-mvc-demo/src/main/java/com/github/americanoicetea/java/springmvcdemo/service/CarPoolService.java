@@ -37,57 +37,45 @@ public class CarPoolService {
     }
 
     public CarModel createCar(CarModel carModel) {
-        var brandPool = BRAND_CAR_POOL.get(carModel.getBrand());
+        var brandPool = BRAND_CAR_POOL.get(carModel.brand());
         if (brandPool == null) {
             brandPool = new HashMap<>();
-            BRAND_CAR_POOL.put(carModel.getBrand(), brandPool);
+            BRAND_CAR_POOL.put(carModel.brand(), brandPool);
         }
-        var inPoolCarModel = brandPool.get(carModel.getBrand());
+        var inPoolCarModel = brandPool.get(carModel.brand());
         if (inPoolCarModel == null) {
-            brandPool.put(carModel.getModel(), carModel);
-            inPoolCarModel = brandPool.get(carModel.getModel());
+            brandPool.put(carModel.model(), carModel);
+            inPoolCarModel = brandPool.get(carModel.model());
         }
         return inPoolCarModel;
     }
 
     public CarModel updateCar(CarModel carModel) {
-        var brandPool = BRAND_CAR_POOL.get(carModel.getBrand());
-        CarModel inPoolCarModel = null;
+        var brandPool = BRAND_CAR_POOL.get(carModel.brand());
         if (brandPool != null) {
-            inPoolCarModel = brandPool.get(carModel.getModel());
+            var inPoolCarModel = brandPool.get(carModel.model());
             if (inPoolCarModel != null) {
-                inPoolCarModel.setDescription(carModel.getDescription());
-                inPoolCarModel.setPower(carModel.getPower());
-                inPoolCarModel.setYear(carModel.getYear());
-                inPoolCarModel.setEnergyCapacity(carModel.getEnergyCapacity());
+                var newCar = inPoolCarModel.copy(carModel);
+                brandPool.replace(newCar.brand(), inPoolCarModel);
+                return newCar;
             }
         }
-        return inPoolCarModel;
+        return null;
     }
 
     public CarModel updatePartialCarModel(CarModel carModel) {
-        Assert.isTrue(carModel.getBrand() != null || !carModel.getBrand().isEmpty(), "brand is mandatory");
-        Assert.isTrue(carModel.getModel() != null || !carModel.getModel().isEmpty(), "model is mandatory");
-        var brandPool = BRAND_CAR_POOL.get(carModel.getBrand());
-        CarModel inPoolCarModel = null;
+        Assert.isTrue(carModel.brand() != null || !carModel.brand().isEmpty(), "brand is mandatory");
+        Assert.isTrue(carModel.brand() != null || !carModel.brand().isEmpty(), "model is mandatory");
+        var brandPool = BRAND_CAR_POOL.get(carModel.brand());
         if (brandPool != null) {
-            inPoolCarModel = brandPool.get(carModel.getModel());
+            var inPoolCarModel = brandPool.get(carModel.model());
             if (inPoolCarModel != null) {
-                if (carModel.getDescription() != null) {
-                    inPoolCarModel.setDescription(carModel.getDescription());
-                }
-                if (carModel.getPower() != null) {
-                    inPoolCarModel.setPower(carModel.getPower());
-                }
-                if (carModel.getYear() != null) {
-                    inPoolCarModel.setYear(carModel.getYear());
-                }
-                if (carModel.getEnergyCapacity() != null) {
-                    inPoolCarModel.setEnergyCapacity(carModel.getEnergyCapacity());
-                }
+                inPoolCarModel = inPoolCarModel.partialCopy(carModel);
+                brandPool.replace(inPoolCarModel.brand(), inPoolCarModel);
+                return inPoolCarModel;
             }
         }
-        return inPoolCarModel;
+        return null;
     }
 
     public CarModel deleteCarModel(String brand, String model) {

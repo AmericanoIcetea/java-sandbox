@@ -2,68 +2,27 @@ package com.github.americanoicetea.java.springmvcdemo.domain;
 
 import java.time.Year;
 
-public class CarModel {
+public record CarModel (
+    String brand,
+    String model,
+    Year year,
+    Integer power,
+    Integer energyCapacity,
+    String description){
 
-    private String brand;
-
-    private String model;
-
-    private Year year;
-
-    private Integer power;
-
-    private Integer energyCapacity;
-
-    private String description;
-
-    public CarModel() {
+    public CarModel copy(CarModel newCarModel){
+        return new CarModel(brand, model, newCarModel.year(), newCarModel.power(), newCarModel.energyCapacity, newCarModel.description());
     }
 
-    public String getBrand() {
-        return brand;
-    }
+    public CarModel partialCopy(CarModel newCarModel){
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
+        var newYear = newCarModel.year() == null ? year : newCarModel.year();
+        var newPower = newCarModel.power() == null ? power : newCarModel.power();
+        var newEnergyCapcity = newCarModel.energyCapacity() == null ? energyCapacity : newCarModel.energyCapacity();
+        var newDescription = newCarModel.description() == null ? description : newCarModel.description();
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public Year getYear() {
-        return year;
-    }
-
-    public void setYear(Year year) {
-        this.year = year;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getPower() {
-        return power;
-    }
-
-    public void setPower(Integer power) {
-        this.power = power;
-    }
-
-    public Integer getEnergyCapacity() {
-        return energyCapacity;
-    }
-
-    public void setEnergyCapacity(Integer energyCapacity) {
-        this.energyCapacity = energyCapacity;
+        return new CarModel(brand, model, newYear, newPower, newEnergyCapcity, newDescription);
     }
 }
+
+
