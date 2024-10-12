@@ -58,8 +58,8 @@ public class BeanController {
         sessionBeans.forEach(entry -> {
             result.put(entry.getKey(), entry.getValue().get());
         });
-        result.put(singletonBean.getClass().getName(), singletonBean.get());
-        result.put(prototypeBean.getClass().getName(), prototypeBean.get());
+        result.put("SingletonBean", singletonBean.get());
+        result.put("PrototypeBean", prototypeBean.get());
         return result;
     }
 
